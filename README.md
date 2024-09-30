@@ -1,4 +1,4 @@
-### Sumário
+# Sumário
 
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação](#instalação)
