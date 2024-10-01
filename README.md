@@ -1,6 +1,6 @@
-# Backup Manager
+# Backups
 
-**Backup Manager** é uma aplicação Python com interface gráfica desenvolvida usando PyQt5, destinada a facilitar a configuração e gerenciamento de backups automáticos de pastas específicas no seu sistema. A aplicação permite selecionar pastas para backup, definir o diretório de destino para os backups, e especificar a quantidade de dias para manter os backups. Os backups são armazenados em arquivos ZIP, e logs das operações são mantidos em arquivos YAML.
+**Backups** é uma aplicação Python com interface gráfica desenvolvida usando PyQt5, destinada a facilitar a configuração e gerenciamento de backups automáticos de pastas específicas no seu sistema. A aplicação permite selecionar pastas para backup, definir o diretório de destino para os backups, e especificar a quantidade de dias para manter os backups. Os backups são armazenados em arquivos ZIP, e logs das operações são mantidos em arquivos YAML.
 
 ## 🛠️ **Recursos**
 
