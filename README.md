@@ -155,4 +155,4 @@ Este projeto está licenciado sob a licença [MIT](LICENSE).
 
 ## 🤝 **Contato**
 
-Se tiver dúvidas, sugestões ou feedback, sinta-se à vontade para abrir uma issue ou entrar em contato através do [hqr90](https://github.com/hqr90/backups).
+Se tiver dúvidas, sugestões ou feedback, sinta-se à vontade para abrir uma issue ou entrar em contato através do meu Github: [hqr90](https://github.com/hqr90/backups).
