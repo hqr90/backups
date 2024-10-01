@@ -1,123 +1,158 @@
-# Sumário
+# Backup Manager
 
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Como Usar](#como-usar)
-- [Automatização do Backup](#automatização-do-backup)
-- [Personalização](#personalização)
-- [Considerações Adicionais](#considerações-adicionais)
+**Backup Manager** é uma aplicação Python com interface gráfica desenvolvida usando PyQt5, destinada a facilitar a configuração e gerenciamento de backups automáticos de pastas específicas no seu sistema. A aplicação permite selecionar pastas para backup, definir o diretório de destino para os backups, e especificar a quantidade de dias para manter os backups. Os backups são armazenados em arquivos ZIP, e logs das operações são mantidos em arquivos YAML.
 
----
+## 🛠️ **Recursos**
 
-## Pré-requisitos
+- **Interface Gráfica Intuitiva:** Configure facilmente as pastas a serem incluídas no backup e o diretório de destino.
+- **Configuração Flexível:** Defina quantos dias deseja manter os backups, garantindo a gestão eficiente do espaço em disco.
+- **Automatização de Backups:** Automatize a criação de backups e a limpeza de backups antigos.
+- **Logs Detalhados:** Mantenha registros das operações de backup para monitoramento e auditoria.
 
-- **Python 3.x** instalado no seu sistema.
-- Permissões de leitura nas pastas de origem (`E:\flutter` e `E:\python`).
-- Permissões de escrita no diretório de destino (`F:\backups`).
+## 📋 **Instalação**
 
-## Instalação
+### 1. Clone o Repositório
 
-1. **Clone ou baixe** este repositório para o seu computador.
-2. **Verifique** se os caminhos das pastas no script correspondem aos seus diretórios locais:
-   ```python
-   pastas_para_backup = [r'E:\flutter', r'E:\python']
-   diretorio_backup = r'F:\backups'
-   ```
-3. **Certifique-se** de que o diretório de backup (`F:\backups`) existe. O script tentará criá-lo se não existir.
+```bash
+git clone https://github.com/hqr90/backups.git
+cd backup-manager
+```
 
-## Como Usar
+### 2. Crie e Ative um Ambiente Virtual (Recomendado)
 
-1. **Abra** o prompt de comando ou terminal.
+#### **No Windows:**
 
-2. **Navegue** até o diretório onde o script está localizado:
-   ```bash
-   cd caminho\para\o\diretório\do\script
-   ```
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
 
-3. **Execute** o script:
-   ```bash
-   python backup_script.py
-   ```
-   - Se o Python não estiver adicionado ao PATH, você precisará fornecer o caminho completo para o interpretador Python:
-     ```bash
-     C:\Python39\python.exe backup_script.py
-     ```
+#### **No Linux/Mac:**
 
-4. **Verifique** se o arquivo zip foi criado no diretório `F:\backups`. O arquivo terá um nome como `20231005_backupCode.zip`.
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-## Automatização do Backup
+### 3. Instale as Dependências
 
-Para agendar a execução automática do script, siga os passos abaixo:
+Com o ambiente virtual ativado, instale as bibliotecas necessárias:
 
-### Usando o Agendador de Tarefas do Windows
+```bash
+pip install -r requirements.txt
+```
 
-1. **Abra** o Agendador de Tarefas:
+**Nota:** Se o arquivo `requirements.txt` não estiver disponível, instale as bibliotecas manualmente:
+
+```bash
+pip install PyQt5 ruamel.yaml
+```
+
+## 🏃 **Uso**
+
+### 1. Executando o Script
+
+Com o ambiente virtual ativado e as dependências instaladas, execute o script:
+
+```bash
+python main.py
+```
+
+### 2. Configuração Inicial
+
+- **Adicionar Pastas para Backup:** Clique em "Adicionar Pasta para Backup" e selecione as pastas que deseja incluir no backup.
+- **Remover Pastas Selecionadas:** Selecione uma pasta na lista e clique em "Remover Pasta Selecionada" para removê-la.
+- **Selecionar Diretório de Backup:** Clique em "Selecionar Diretório de Backup" e escolha onde os backups serão armazenados.
+- **Definir Dias para Manter os Backups:** Use o campo "Dias para manter os backups" para definir quantos dias deseja manter os backups. O valor padrão é 365 dias.
+- **Salvar Configuração:** Após configurar, clique em "Salvar Configuração". O arquivo `backup_config.yaml` será salvo no diretório de backup especificado, e o backup será realizado automaticamente.
+
+### 3. Execuções Futuras
+
+Nas próximas execuções, o script utilizará as configurações existentes sem exibir a janela de configuração, a menos que o arquivo `backup_config.yaml` seja removido do diretório de backup.
+
+## 📂 **Estrutura dos Arquivos**
+
+- **`main.py`:** Script principal da aplicação.
+- **`backup_config.yaml`:** Arquivo de configuração contendo:
+  - `pastas_para_backup`: Lista de pastas a serem incluídas no backup.
+  - `diretorio_backup`: Diretório onde os backups e logs serão armazenados.
+  - `dias_para_manter`: Número de dias para manter os backups.
+- **`backup_log.yaml`:** Log das operações de backup realizadas.
+- **`requirements.txt`:** (Opcional) Lista de dependências do projeto.
+
+## 🔧 **Criação de um Executável**
+
+Para facilitar a distribuição e execução da aplicação sem a necessidade de um ambiente Python configurado, você pode transformar o script em um executável, siga o passo-a-passo de como fazer isso em [py2exe](https://github.com/hqr90/py2exe/edit/master/README.md), ou se preferir utilize a biblioteca PyInstaller.
+
+### 3. Executando o Executável
+
+Navegue até a pasta `dist` e execute o arquivo `main.exe` (no Windows) ou correspondente no seu sistema operacional.
+
+## 🗓️ **Agendamento com o Agendador de Tarefas do Windows**
+
+Para automatizar a execução do backup, você pode agendar o executável criado para rodar em intervalos regulares usando o **Agendador de Tarefas do Windows**.
+
+### Passo a Passo:
+
+1. **Abrir o Agendador de Tarefas:**
    - Pressione `Win + R`, digite `taskschd.msc` e pressione `Enter`.
 
-2. **Crie** uma nova tarefa básica:
-   - Clique em **Ação** > **Criar Tarefa Básica**.
+2. **Criar uma Nova Tarefa:**
+   - No painel direito, clique em **"Criar Tarefa"**.
 
-3. **Configure** a tarefa:
-   - **Nome**: "Backup Automático de Código".
-   - **Disparador**: Defina a frequência (diariamente, semanalmente, etc.) e o horário em que o backup deve ser executado.
-   - **Ação**: Selecione **Iniciar um programa**.
-     - **Programa/script**: Caminho para o interpretador Python, por exemplo, `C:\Python39\python.exe`.
-     - **Adicionar argumentos**: Caminho completo para o script, por exemplo, `C:\caminho\para\backup_script.py`.
-   - **Finalizar** a configuração da tarefa.
+3. **Configurar a Tarefa:**
+   - **Geral:**
+     - Dê um nome para a tarefa, por exemplo, "Backup Manager".
+     - Marque "Executar com privilégios mais altos".
+   - **Disparadores:**
+     - Clique em "Novo..." e defina quando a tarefa deve ser executada (diariamente, semanalmente, etc.).
+   - **Ações:**
+     - Clique em "Novo...", selecione "Iniciar um programa" e navegue até o executável `main.exe` na pasta `dist`.
+   - **Condições e Configurações:**
+     - Ajuste conforme necessário (por exemplo, iniciar a tarefa apenas se o computador estiver ocioso).
 
-4. **Permissões**:
-   - Na guia **Geral** da tarefa, marque a opção **Executar com os privilégios mais altos**.
-   - Certifique-se de que o usuário configurado para executar a tarefa tem as permissões necessárias.
+4. **Salvar a Tarefa:**
+   - Clique em **"OK"** para salvar a tarefa.
 
-## Personalização
+Agora, o Agendador de Tarefas executará automaticamente o Backup Manager conforme a programação definida.
 
-### Adicionar Mais Pastas ao Backup
+## 🛠️ **Personalização e Extensões**
 
-Para incluir mais pastas no backup, adicione os caminhos à lista `pastas_para_backup`:
-```python
-pastas_para_backup = [r'E:\flutter', r'E:\python', r'E:\meu_projeto']
-```
+- **Alterar o Intervalo de Dias para Manter Backups:**
+  - Edite o arquivo `backup_config.yaml` no diretório de backup e ajuste o valor de `dias_para_manter` conforme necessário.
 
-### Alterar o Diretório de Backup
+- **Adicionar Mais Pastas para Backup:**
+  - Execute a aplicação, exclua o arquivo `backup_config.yaml`, e configure novamente para adicionar novas pastas.
 
-Para alterar onde o arquivo zip será salvo, modifique a variável `diretorio_backup`:
-```python
-diretorio_backup = r'G:\meus_backups'
-```
+## 📝 **Contribuição**
 
-## Considerações Adicionais
+Contribuições são bem-vindas! Se você deseja melhorar este projeto, siga os passos abaixo:
 
-- **Espaço em Disco**: Verifique regularmente o espaço disponível em `F:\backups` para evitar falhas no backup devido a falta de espaço.
-- **Integridade dos Dados**: Periodicamente, teste os arquivos de backup para garantir que estão íntegros e podem ser extraídos sem erros.
-- **Segurança**: Se os arquivos contêm informações sensíveis, considere proteger o arquivo zip com senha ou usar métodos de criptografia.
+1. **Fork o Repositório**
+2. **Crie uma Branch para sua Feature:**
 
-### Logs de Execução
-
-Para adicionar logs que registram o sucesso ou falha de cada execução:
-
-1. Importe o módulo `logging` no início do script:
-   ```python
-   import logging
+   ```bash
+   git checkout -b feature/nova-feature
    ```
 
-2. Configure o logging após os imports:
-   ```python
-   logging.basicConfig(filename='backup_log.txt', level=logging.INFO,
-                       format='%(asctime)s - %(levelname)s - %(message)s')
+3. **Commit suas Alterações:**
+
+   ```bash
+   git commit -m "Adiciona nova feature"
    ```
 
-3. Adicione mensagens de log no script:
-   ```python
-   logging.info("Backup iniciado.")
-   # Após a conclusão do backup
-   logging.info("Backup concluído com sucesso.")
+4. **Push para a Branch:**
+
+   ```bash
+   git push origin feature/nova-feature
    ```
 
-Os logs serão salvos no arquivo `backup_log.txt` no mesmo diretório do script.
+5. **Abra um Pull Request**
 
-## Contato
+## 📄 **Licença**
 
-Para dúvidas ou sugestões:
+Este projeto está licenciado sob a licença [MIT](LICENSE).
 
-- **Email**: rebello.hiltonqueiroz@gmail.com
-- **Telefone**: (27) 99578-2206
+## 🤝 **Contato**
+
+Se tiver dúvidas, sugestões ou feedback, sinta-se à vontade para abrir uma issue ou entrar em contato através do [hqr90](https://github.com/hqr90/backups).
